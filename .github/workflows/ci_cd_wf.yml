@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-      - test
-      - test-branch
   pull_request:
     branches:
       - "*"
@@ -13,7 +11,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Check out repo code
         uses: actions/checkout@v3
@@ -26,22 +23,19 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install -r requirements.txt
+
       - name: Run tests
         run: |
-            python -m pytest -v tests
+          python -m pytest -v tests
+
       - name: Run tests with code coverage
         run: |
-              pip install pytest-cov
-              python -m pytest --cov=./ --cov-report=xml tests     
+          pip install pytest-cov
+          python -m pytest --cov=./ --cov-report=xml tests
+
       - name: Upload coverage report
         uses: actions/upload-artifact@v2
         with:
           name: coverage-report
           path: cov.xml
 
-      
-                
-
-        
-
-    
