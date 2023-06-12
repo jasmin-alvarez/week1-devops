@@ -33,7 +33,9 @@ jobs:
           pip install pytest-cov
           python -m pytest --cov=./ --cov-report=xml tests
 
-      - name: Generate coverage comment 
-        run: | 
-          pip install pytest-coverage-comment python -m pytest_coverage_comment --file cov.xml
-  
+      - name: Install pytest-coverage-comment
+        run: pip install pytest-coverage-comment
+        
+      - name: Add coverage comment to Pull Request
+        run: python -m pytest_coverage_comment --file cov.xml
+        
