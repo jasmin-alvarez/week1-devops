@@ -29,12 +29,13 @@ jobs:
           python -m pytest -v tests
       - name: Run tests with coverage
         run: |
-          coverage run -m pytest -v tests
-          coverage xml -o coverage.xml
-      - name: Upload coverage report as PR comment
-        uses: pullreminders/coverage-action@v2
+          python -m pytest --cov=./ --cov-report=xml
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v2
         with:
-            repo-token: ${{ secrets.GITHUB_TOKEN }}
+            name: coverage-report
+            path: coverage.xml
+        
         
 
     
