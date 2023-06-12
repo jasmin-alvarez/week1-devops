@@ -27,3 +27,14 @@ jobs:
       - name: Run tests
         run: |
           python -m pytest -v tests
+      - name: Run tests with coverage
+        run: |
+          coverage run -m pytest -v tests
+          coverage xml -o coverage.xml
+      - name: Upload coverage report as PR comment
+        uses: dineshsonachalam/coverage-comment@v1.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          coverage-report: coverage.xml
+
+    
