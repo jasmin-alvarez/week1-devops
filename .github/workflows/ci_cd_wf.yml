@@ -1,5 +1,5 @@
 name: test
-
+permissions: write-all
 on:
   push:
     branches:
@@ -28,14 +28,13 @@ jobs:
         run: |
           python -m pytest -v tests
 
-      - name: Run tests with code coverage
+      - name: Build coverage file
         run: |
-          pip install pytest-cov
-          python -m pytest --cov=./ --cov-report=xml tests
-
-      - name: Install pytest-coverage-comment
-        run: pip install pytest-coverage-comment
-        
-      - name: Add coverage comment to Pull Request
-        run: python -m pytest_coverage_comment --file cov.xml
+            python -m pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov . | tee pytest-coverage.txt
+  
+      - name: Pytest coverage comment
+        uses: MishaKav/pytest-coverage-comment@main
+        with:
+            pytest-coverage-path: ./pytest-coverage.txt
+            junitxml-path: ./pytest.xml
         
